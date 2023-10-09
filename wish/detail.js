@@ -31,16 +31,16 @@ async function loadWish(wishId) {
     wishName.innerText = response.wish_name
     wishContent.innerText = response.content
     wishImage.src = response.images
-    console.log(wishImage.src)
+    // console.log(wishImage.src)
     
 
     // console.log(response.images)        // [{image: '/media/wish/wish_img/6/image2.jpg'}, {image: '/media/wish/wish_img/6/image3.jpg'}]
     // console.log(response.images[1])     // {image: '/media/wish/wish_img/6/image3.jpg'}
     // console.log(response.images.values) // ƒ values() { [native code] }
 
-    for (const image of response.images) {  
-        console.log(image.image)                      // {image: '/media/wish/wish_img/6/image2.jpg'}와 {image: '/media/wish/wish_img/6/image3.jpg'}가 따로 콘솔로그에 찍힘
-    }
+    // for (const image of response.images) {  
+    //     console.log(image.image)                      // {image: '/media/wish/wish_img/6/image2.jpg'}와 {image: '/media/wish/wish_img/6/image3.jpg'}가 따로 콘솔로그에 찍힘
+    // }
 
 
     const newImage = document.createElement("img")
@@ -63,25 +63,31 @@ async function loadWish(wishId) {
 async function loadComments(wishId) {
     const response = await getWish(wishId);
     const response_json = await response.comments
-    console.log(response_json)
+    // console.log(response_json)
 
     const commentAuthor = document.getElementById("comment-author")
     const commentContent = document.getElementById("comment-content")
     const commentCreatedAt = document.getElementById("comment-created")
-    // commentAuthor.innerText = response_json.comments.author
-    // commentContent.innerText = response_json.comments.content
-    // commentCreatedAt.innerText = response_json.comments.created_at
+
     // var json = { 'NAME':'홍길동', 'SEX':'남', 'AGE':'99세'};
 
     // Object.keys(response_json)
-    // for(key in Range(response_json.length)) {
+    // for(key in response_json) {
     //     alert('key:' + key + ' / ' + 'value:' + response_json[key]);
     // }
-    response_json.forEach(comment => {
-        
+    for (const comment of response_json) {
+        for (const key in comment) {  
+            console.log(key, comment[key])                   // {image: '/media/wish/wish_img/6/image2.jpg'}와 {image: '/media/wish/wish_img/6/image3.jpg'}가 따로 콘솔로그에 찍힘
+            if (key =="author") {
+                commentAuthor.innerText = comment.author
+            } else if (key =="content") {
+                commentContent.innerText = comment.content
+            } else {
+                commentCreatedAt.innerText = comment.created_at
+            }
+            // if (key =="created_at")
+            }
     }
-        )
-
 }
 
 
